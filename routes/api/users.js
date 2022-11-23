@@ -13,6 +13,8 @@ router.post('/login', validation(joiSchemaLogin), ctrlWrapper(ctrl.login));
 
 router.get('/logout', ctrlWrapper(user),  ctrlWrapper(ctrl.logout));
 
+router.get('/current', ctrlWrapper(user), ctrlWrapper(ctrl.getCurrent));
+
 
 
 
