@@ -1,6 +1,8 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
+const Jimp = require('jimp');
+
 
 const usersSchema = Schema({
     password: {
@@ -17,7 +19,10 @@ const usersSchema = Schema({
         enum: ["starter", "pro", "business"],
         default: "starter"
     },
-
+    avatarURL: {
+        type: String,
+        require:true
+    },
     token: String,
 });
 
@@ -43,8 +48,23 @@ const joiSchemaLogin = Joi.object({
 });
 
 
+const jimp = async (filePath) => {
+    try {
+        const img = await Jimp.read(filePath)
+        await img
+            .autocrop()
+            .cover(
+                250,
+                250,
+                Jimp.HORIZONTAL_ALIGN_CENTER | Jimp.VERTICAL_ALIGN_MIDDLE,
+            )
+            .writeAsync(filePath)
+    } catch (error) {
+        console.error(error)
+    }
+};
 
 const User = model("user", usersSchema);
 
-module.exports = {User , joiSchemaRegister , joiSchemaLogin};
+module.exports = {User , joiSchemaRegister , joiSchemaLogin , jimp};
 
