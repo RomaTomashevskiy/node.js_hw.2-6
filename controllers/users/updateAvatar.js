@@ -1,4 +1,5 @@
-const { User , jimp} = require("../../model/users");
+const { User } = require("../../model/users");
+const { jimp } = require("../../helpers/index");
 const fs = require("fs/promises");
 const path = require("path");
 
