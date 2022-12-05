@@ -2,11 +2,18 @@ const { User } = require('../../model/users');
 
 const { BadRequest } = require('http-errors');
 
-const verufyTextRegisterEmail = require("../../helpers/textEmail");
+const verifyTextRegisterEmail = require("../../helpers/textEmail");
 
 const reverify = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
+  const { verificationToken } = user;
+  // console.log(user.verificationToken)
+  if (!user.verify) {
+    await verifyTextRegisterEmail({ email, verificationToken });
+     res.json({ message: "Verification email sent" });
+  };
+
 
   if (!email) {
     throw new BadRequest("Missing required field email");
@@ -17,12 +24,6 @@ const reverify = async (req, res) => {
     throw new BadRequest("Verification has already been passed");
   };
 
-  
-  if (!user.verify) {
-    await verufyTextRegisterEmail(email, user.verificationToken);
-    
-    return res.json({ message: "Verification email sent" });
-  };
   
 };
 

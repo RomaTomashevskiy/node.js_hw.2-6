@@ -55,9 +55,13 @@ const joiSchemaLogin = Joi.object({
     password:Joi.string().required().min(6),
 });
 
+const joiSchemaEmailVerify = Joi.object({
+    email: Joi.string().required(),
+});
+
 
 
 const User = model("user", usersSchema);
 
-module.exports = {User , joiSchemaRegister , joiSchemaLogin };
+module.exports = {User , joiSchemaRegister , joiSchemaLogin  , joiSchemaEmailVerify};
 

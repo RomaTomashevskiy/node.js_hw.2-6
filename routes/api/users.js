@@ -4,7 +4,7 @@ const router = express.Router();
 const { users: ctrl } = require('../../controllers/index');
 const { ctrlWrapper , user , upload} = require('../../middelwares');
 
-const {joiSchemaRegister , joiSchemaLogin} = require("../../model/users");
+const {joiSchemaRegister , joiSchemaLogin , joiSchemaEmailVerify} = require("../../model/users");
 
 
 const validation = require("../../middelwares/validation");
@@ -21,7 +21,7 @@ router.patch('/avatars', ctrlWrapper(user), upload.single("avatar"), ctrlWrapper
 
 router.get('/verify/:verificationToken', ctrlWrapper(ctrl.verifyEmail));
 
-router.post('/verify', ctrlWrapper(ctrl.reverify));
+router.post('/verify', validation(joiSchemaEmailVerify) ,  ctrlWrapper(ctrl.reverify));
 
 
 
