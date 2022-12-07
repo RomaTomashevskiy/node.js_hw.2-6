@@ -1,26 +1,27 @@
-const transport = require("./hostEmail");
+const transporter = require("./hostEmail");
 
 
 
-const verufyTextRegisterEmail = async ({email , verificationToken}) => {
+const verifyTextRegisterEmail = async({email , verificationToken}) => {
 
-
+    console.log(email)
     const URL = `http://localhost:3000/api/users/verify/${verificationToken}`;
     
     const emailBody = {
-        form: "nodejs@ukr.net",
         to: email,
+        from: "nodejs@ukr.net",
         subject: "Please verify your email",
         html: `<h1>Please open this link and confirm registration <a href="${URL}">URL</a></h1>`,
     };
-
-    await transport.sendMail(emailBody);
+    await transporter.sendMail(emailBody);
 };
 
 
-verufyTextRegisterEmail().catch((error) => console.log("app err", error.message));
+
+
+verifyTextRegisterEmail().catch((error) => console.log("app err", error.message));
 
 
 
 
-module.exports = verufyTextRegisterEmail;
+module.exports = verifyTextRegisterEmail;
